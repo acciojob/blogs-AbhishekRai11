@@ -1,8 +1,11 @@
 package com.driver.models;
 
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -13,8 +16,16 @@ public class Blog {
     private int id;
     private String title;
     private String content;
+    @CreationTimestamp
+    private Date date;
 
+    public Date getDate() {
+        return date;
+    }
 
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     @ManyToOne
     @JoinColumn

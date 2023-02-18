@@ -12,9 +12,29 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(columnDefinition = "varchar(255) default 'test'")
+
     private String userName;
     private String password;
+    @Column(columnDefinition = "varchar(255) default 'test'")
+    private String firstName;
+    @Column(columnDefinition = "varchar(255) default 'test'")
+    private  String lastName;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private List<Blog> blog=new ArrayList<>();
