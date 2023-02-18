@@ -1,51 +1,50 @@
 package com.driver.models;
 
-
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "blog")
-public class Blog {
+@Table(name = "Blog")
+public class Blog{
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy =GenerationType.IDENTITY)
     private int id;
     private String title;
     private String content;
+
     @CreationTimestamp
     private Date pubDate;
 
-
-
+    //Mapping
     @ManyToOne
     @JoinColumn
     private User user;
 
-    public Date getPubDate() {
-        return pubDate;
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL)
+    @JoinColumn
+    private List<Image> imageList;
+
+    public Blog() {
+
     }
 
-    public void setPubDate(Date pubDate) {
+    public Blog(User user, String title, String content) {
+        this.title = title;
+        this.content = content;
+        this.user = user;
+    }
+
+    public Blog(int id, String title, String content, Date pubDate, User user, List<Image> imageList) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
         this.pubDate = pubDate;
-    }
-
-    public List<Image> getImageList() {
-        return imageList;
-    }
-
-    public void setImageList(List<Image> imageList) {
+        this.user = user;
         this.imageList = imageList;
-    }
-
-    @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
-    private List<Image> imageList=new ArrayList<>();
-
-    public Blog(){
-
     }
 
     public int getId() {
@@ -72,6 +71,14 @@ public class Blog {
         this.content = content;
     }
 
+    public Date getPubDate() {
+        return pubDate;
+    }
+
+    public void setPubDate(Date pubDate) {
+        this.pubDate = pubDate;
+    }
+
     public User getUser() {
         return user;
     }
@@ -80,5 +87,11 @@ public class Blog {
         this.user = user;
     }
 
+    public List<Image> getImageList() {
+        return imageList;
+    }
 
+    public void setImageList(List<Image> imageList) {
+        this.imageList = imageList;
+    }
 }

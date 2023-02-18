@@ -6,6 +6,7 @@ import com.driver.models.User;
 import com.driver.repositories.BlogRepository;
 import com.driver.repositories.ImageRepository;
 import com.driver.repositories.UserRepository;
+import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,39 +22,23 @@ public class BlogService {
     @Autowired
     UserRepository userRepository1;
 
-    @Autowired
-    ImageRepository imageRepository;
-
     public Blog createAndReturnBlog(Integer userId, String title, String content) {
         //create a blog at the current time
-        User user= userRepository1.findById(userId).get();
-        Blog blog=new Blog();
-        blog.setUser(user);
-        blog.setTitle(title);
-        blog.setContent(content);
-        List<Blog> listOfBlog=user.getBlogList();
-        listOfBlog.add(blog);
-        userRepository1.save(user);
-
+//
+//        if(!userRepository1.findById(userId).isPresent()){
+//            throw new Exception();
+//        }
+        User user = userRepository1.findById(userId).get();
+        Blog blog = new Blog(user,title,content);
+        blog.setPubDate(new Date());
+        userRepository1.save(user); //Blog saved in repo by cascading
+        user.getBlogList().add(blog);
         return blog;
 
     }
 
     public void deleteBlog(int blogId){
         //delete blog and corresponding images
-        Blog blog=blogRepository1.findById(blogId).get();
-
-        User user=blog.getUser();
-        List<Blog> listOfBlog=user.getBlogList();
-        listOfBlog.remove(blog);
-        userRepository1.save(user);
-        List<Image> imageList=blog.getImageList();
-        for(Image image:imageList){
-            int id=image.getId();
-            imageRepository.deleteById(id);
-        }
-
         blogRepository1.deleteById(blogId);
-
     }
 }
