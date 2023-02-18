@@ -13,7 +13,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String userName;
+    private String username;
     private String password;
     @Column(columnDefinition = "varchar(255) default 'test'")
     private String firstName;
@@ -36,8 +36,24 @@ public class User {
         this.lastName = lastName;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public List<Blog> getBlogList() {
+        return blogList;
+    }
+
+    public void setBlogList(List<Blog> blogList) {
+        this.blogList = blogList;
+    }
+
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    private List<Blog> blog=new ArrayList<>();
+    private List<Blog> blogList=new ArrayList<>();
 
 
 
@@ -53,13 +69,9 @@ public class User {
         this.id = id;
     }
 
-    public String getUserName() {
-        return userName;
-    }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+
+
 
     public String getPassword() {
         return password;
@@ -69,11 +81,5 @@ public class User {
         this.password = password;
     }
 
-    public List<Blog> getBlog() {
-        return blog;
-    }
 
-    public void setBlog(List<Blog> blog) {
-        this.blog = blog;
-    }
 }

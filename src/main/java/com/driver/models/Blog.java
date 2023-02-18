@@ -17,23 +17,32 @@ public class Blog {
     private String title;
     private String content;
     @CreationTimestamp
-    private Date date;
+    private Date pubDate;
 
-    public Date getDate() {
-        return date;
-    }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
 
     @ManyToOne
     @JoinColumn
     private User user;
 
+    public Date getPubDate() {
+        return pubDate;
+    }
+
+    public void setPubDate(Date pubDate) {
+        this.pubDate = pubDate;
+    }
+
+    public List<Image> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<Image> imageList) {
+        this.imageList = imageList;
+    }
 
     @OneToMany(mappedBy = "blog",cascade = CascadeType.ALL)
-    private List<Image> image=new ArrayList<>();
+    private List<Image> imageList=new ArrayList<>();
 
     public Blog(){
 
@@ -71,11 +80,5 @@ public class Blog {
         this.user = user;
     }
 
-    public List<Image> getImage() {
-        return image;
-    }
 
-    public void setImage(List<Image> image) {
-        this.image = image;
-    }
 }
